@@ -1,5 +1,7 @@
 # presage_technologies
 
+**The information contained in this Python client, API, or data responses as expected form normal usage of the data should not be used to diagnose or treat any disease or illness. This is for informational and research purposes only.**
+
 A Python client for Presage Technologies' APIs. [Presage Technologies](https://presagetech.com)
 
 
