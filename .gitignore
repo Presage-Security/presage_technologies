@@ -15,4 +15,4 @@ presage_physiology/logs
 test.py
 tests/test_videos/*
 **.pytest_cache**
-Presage_Physiology.egg-info
+Presage_Technologies.egg-info
