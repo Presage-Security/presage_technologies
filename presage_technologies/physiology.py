@@ -2,15 +2,14 @@ import requests
 import time
 import logging
 logging.basicConfig(
-    format="%(asctime)s %(levelname)-8s [%(process)d] [%(funcName)20s] %(message)s",
+    format="%(asctime)s %(levelname)-8s [PresagePhysiology] %(message)s",
     level=logging.INFO,
     datefmt="%Y-%m-%d %H:%M:%S",
 )
-class PresagePhysiology:
+class Physiology:
     def __init__(self, api_key, base_api_url="https://physiology.presagetech.com"):
         self.api_key = api_key
         self.base_api_url = base_api_url
-        self.s3_client = boto3.client('s3')
     def preprocess_video(self, video):
         logging.warning("Not yet implemented")
         pass
@@ -71,17 +70,3 @@ class PresagePhysiology:
                 r = requests.post(link["url"], data=link["fields"], files=files)
                 logging.info("Video uploaded successfully and is now processing.")
         return vid_id
-
-
-if __name__ == '__main__':
-    import boto3
-    ssm = boto3.client('ssm')
-    api_key = ssm.get_parameter(Name='/physiology/rick/test/api_key', WithDecryption=True)['Parameter']['Value']
-
-
-    physio = PresagePhysiology(api_key, base_api_url="https://test.physiology.presagetech.com")
-    vid_id = physio.queue_processing_hr_rr("/Users/rick/Desktop/rotating90bpm.mov")
-    print("Have video id", vid_id)
-    # time.sleep(120)
-    final_data = physio.retrieve_result(vid_id)
-    print(final_data)
