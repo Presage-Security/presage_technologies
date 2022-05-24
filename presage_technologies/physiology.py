@@ -7,7 +7,10 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 class Physiology:
-    def __init__(self, api_key, base_api_url="https://physiology.presagetech.com"):
+    def __init__(self, api_key=None, base_api_url="https://physiology.presagetech.com"):
+        if not api_key:
+            logging.critical("An API key is required in order to run this package.")
+            return
         self.api_key = api_key
         self.base_api_url = base_api_url
     def preprocess_video(self, video):
