@@ -49,7 +49,7 @@ video_id = physio.queue_processing_hr_rr("/path/to/video/file")
 We currently recommend waiting half the length of your video to start checking whether it is not but this is not a hard limit. When you are ready to start checking for the result you can use `.retrieve_result()` with your video_id to return the results.
 
 ```python
-data = physio.return_resuls(video_id)
+data = physio.retrieve_result(video_id)
 ```
 
 Data will return a dictionary with keys `hr` and `rr`. Both will have keys that represent the time within the video the value was recorded.
