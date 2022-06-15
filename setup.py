@@ -1,14 +1,19 @@
 from setuptools import setup
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 requirements = ['requests']
 
 
 setup(
     name='Presage Technologies',
-    version='1.0.1',
+    version='1.0.2',
     packages=['presage_technologies'],
     author="Presage Technologies",
     author_email="support@presagetech.com",
     description="A Python client to interface with Presage Technologies' API services.",
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     package_dir={'presage_technologies': 'presage_technologies'},
     install_requires=requirements,
     zip_safe=False,
