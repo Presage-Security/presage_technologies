@@ -16,7 +16,7 @@ workflow:
 
 stages:
   - secrets
-  - semantic-release
+  - semantic_release
 
 # Grabs tokens to write Semantic Release back to repo
 prebuild:
