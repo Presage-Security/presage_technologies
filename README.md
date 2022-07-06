@@ -33,6 +33,11 @@ $ pip install presage_technologies
 
 ## Physiology Usage
 
+### Google Colab Demo
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]([https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb](https://github.com/Presage-Security/presage_technologies/blob/main/examples/Physiology_API_Example.ipynb))
+
+
 After installation, import the client class into your project and initialize with the API key:
 
 ```python
@@ -56,27 +61,27 @@ Data will return a dictionary with keys `hr` and `rr`. Both will have keys that 
 
 ## Limitations
 
-In order to ensure best performance, we recommend that the videos you process meet the following conditions.  Within a 20 second window, it is ideal if there is a single foremost subject in view.  That subject's gaze is mostly unchanged and looking in the general direction of the acquiring camera. The subject’s face, shoulders and chest should be visible.  Well-lit, uniformly-lit, and consistently-lit environments will also ensure optimal performance.  Videos must be acquired at frame rates greater than 10 frames per second. 
+In order to ensure best performance, we recommend that the videos you process meet the following conditions.  Within a 20 second window, it is ideal if there is a single foremost subject in view.  That subject's gaze is mostly unchanged and looking in the general direction of the acquiring camera. The subject’s face, shoulders and chest should be visible.  Well-lit, uniformly-lit, and consistently-lit environments will also ensure optimal performance.  Videos must be acquired at frame rates greater than 10 frames per second.
 
 
 #### Video format
 
 The current API requires that input videos have a standard, RGB color encoding.  We ensure support for the following formats: AVI, MOV and MP4.  
 
-#### ISO/Exposure/Gain 
+#### ISO/Exposure/Gain
 
-Some cameras automatically adjust exposure time, gain, ISO or f/stop in order to optimize image brightness.  This can be problematic for Presage Vitals if said values vary dramatically. While Presage can deal with varying lighting changes in the recording environment, rapid lighting changes can cause ISO, gain, and exposure to vary significantly and be problematic for proper vital extraction. For optimal results, ensure the recording device is not performing rapid ISO/exposure/gain adjustments or keep the scene illumination relative constant. 
+Some cameras automatically adjust exposure time, gain, ISO or f/stop in order to optimize image brightness.  This can be problematic for Presage Vitals if said values vary dramatically. While Presage can deal with varying lighting changes in the recording environment, rapid lighting changes can cause ISO, gain, and exposure to vary significantly and be problematic for proper vital extraction. For optimal results, ensure the recording device is not performing rapid ISO/exposure/gain adjustments or keep the scene illumination relative constant.
 
 #### Distance
 
-Presage technology can measure vitals for a large degree of subject to camera distance.  It only requires that there are at least approximately 100 camera pixels across the face and that said face is in focus.  For a 12 megapixel camera, this is approximately 3-5% of the total width of the image. 
+Presage technology can measure vitals for a large degree of subject to camera distance.  It only requires that there are at least approximately 100 camera pixels across the face and that said face is in focus.  For a 12 megapixel camera, this is approximately 3-5% of the total width of the image.
 
-Extreme imaging distances in atmospheric conditions that display visible scintillation in recorded videos can cause errors in the vital extraction. 
+Extreme imaging distances in atmospheric conditions that display visible scintillation in recorded videos can cause errors in the vital extraction.
 
 #### Lighting
-While Presage can deal with monochromatic visible light sources for illumination, broadband light sources covering the entire visible spectrum are ideal. 
+While Presage can deal with monochromatic visible light sources for illumination, broadband light sources covering the entire visible spectrum are ideal.
 
-Scene illumination should not be too dark or too bright. Ensure the average recorded pixel intensity of the subject's face is above 30% of the dynamic range of the recording device without gain being applied. Also, ensure the pixels corresponding to the subject's face are not saturated. Video recorded not following these lighting guidelines could result in no vitals being obtained. 
+Scene illumination should not be too dark or too bright. Ensure the average recorded pixel intensity of the subject's face is above 30% of the dynamic range of the recording device without gain being applied. Also, ensure the pixels corresponding to the subject's face are not saturated. Video recorded not following these lighting guidelines could result in no vitals being obtained.
 
 
 #### Motion
@@ -86,5 +91,4 @@ Although we expect to handle camera motion in the future, currently large degree
 
 _Subject motion_
 
-Similar to camera motion, we have found that subject motion can degrade the ability to reliably generate a respiratory rate measurement and to a lesser degree, a heart rate measurement.  It takes approximately 10 seconds of video with a stationary subject before a new vital measurement is returned. If a subject moves their head significantly, that counter resets.  We recommend the subject remains still, with their gaze pointed towards the acquiring camera. The subject should also refrain from talking as this leads to errors in respiration rate measurements. 
-
+Similar to camera motion, we have found that subject motion can degrade the ability to reliably generate a respiratory rate measurement and to a lesser degree, a heart rate measurement.  It takes approximately 10 seconds of video with a stationary subject before a new vital measurement is returned. If a subject moves their head significantly, that counter resets.  We recommend the subject remains still, with their gaze pointed towards the acquiring camera. The subject should also refrain from talking as this leads to errors in respiration rate measurements.
