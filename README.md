@@ -35,7 +35,7 @@ $ pip install presage_technologies
 
 ### Google Colab Demo
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/Presage-Security/presage_technologies/blob/main/examples/Physiology_API_Example.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Presage-Security/presage_technologies/blob/main/examples/Physiology_API_Example.ipynb)
 
 
 After installation, import the client class into your project and initialize with the API key:
