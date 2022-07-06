@@ -23,7 +23,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
-    url="https://github.com/Presage-Security/presage_technologies",
+    url="https://physiology.presagetech.com/",
     project_urls={
         "Bug Tracker": "https://github.com/Presage-Security/presage_technologies/issues",
     },
