@@ -73,3 +73,14 @@ class Physiology:
                 r = requests.post(link["url"], data=link["fields"], files=files)
                 logging.info("Video uploaded successfully and is now processing.")
         return vid_id
+    def list_uploads(self):
+        """Using the Presage Physiology API, get all available videos a user has processed.
+
+        Returns
+        -------
+        list
+            Returns a list of JSON from the API with Video ID and Upload Date
+        """
+        response = requests.get(self.base_api_url+ "/list-uploads", headers={"x-api-key": self.api_key})
+        items = response.json()
+        return items
