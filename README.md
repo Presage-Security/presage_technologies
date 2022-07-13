@@ -2,7 +2,7 @@
 
 **The information contained in this Python client, API, or data responses as expected from normal usage of the data should not be used to diagnose, treat, or prevent any disease or illness whether directly or indirectly. This is for informational and research purposes only.**
 
-A Python client for Presage Technologies' APIs. [Presage Technologies](https://presagetech.com)
+A Python client for Presage Technologies' APIs. [Presage Technologies](https://presagetechnologies.com)
 
 
 ## License
@@ -59,6 +59,12 @@ data = physio.retrieve_result(video_id)
 
 Data will return a dictionary with keys `hr` and `rr`. Both will have keys that represent the time within the video the value was recorded.
 
+```python
+data = physio.list_uploads()
+```
+
+Data will return a list of dictionaries with keys `id` and `upload_date`.
+
 ## Limitations
 
 In order to ensure best performance, we recommend that the videos you process meet the following conditions.  Within a 20 second window, it is ideal if there is a single foremost subject in view.  That subject's gaze is mostly unchanged and looking in the general direction of the acquiring camera. The subject’s face, shoulders and chest should be visible.  Well-lit, uniformly-lit, and consistently-lit environments will also ensure optimal performance.  Videos must be acquired at frame rates greater than 10 frames per second.
@@ -66,7 +72,7 @@ In order to ensure best performance, we recommend that the videos you process me
 
 #### Video format
 
-The current API requires that input videos have a standard, RGB color encoding.  We ensure support for the following formats: AVI, MOV and MP4.  
+The current API requires that input videos have a standard, RGB color encoding.  We ensure support for the following formats: AVI, MOV and MP4.
 
 #### ISO/Exposure/Gain
 
