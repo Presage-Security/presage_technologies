@@ -50,6 +50,7 @@ class Physiology:
                 time.sleep(5)
             elif response.status_code == 401:
                 logging.warning("Unauthorized error! Please make sure your API key is correct.")
+                return
             else:
                 time.sleep(60)
         return None
@@ -72,6 +73,9 @@ class Physiology:
         file_size = target_file.stat().st_size
 
         response = requests.post(url, headers=headers, json={"file_size": file_size})
+        if response.status_code == 401:
+            logging.warning("Unauthorized error! Please make sure your API key is correct.")
+            return
         vid_id = response.json()["id"]
         urls = response.json()["urls"]
         upload_id = response.json()["upload_id"]
