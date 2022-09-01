@@ -4,7 +4,7 @@ this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 requirements = ['requests']
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 
 setup(
     name='Presage Technologies',
