@@ -48,6 +48,8 @@ class Physiology:
                 return response.json()
             elif response.status_code == 201:
                 time.sleep(5)
+            elif response.status_code == 401:
+                logging.warning("Unauthorized error! Please make sure your API key is correct.")
             else:
                 time.sleep(60)
         return None
@@ -61,8 +63,6 @@ class Physiology:
         str
             Id for the video uploaded that can be used to later retrieveresults with the retrieve_result function.
         """
-        #response = requests.get(self.base_api_url+ "/upload-url", headers={"x-api-key": self.api_key})
-        #link = response.json()["url"]
         max_size = 5 * 1024 * 1024
 
         url = self.base_api_url + "/v1/upload-url"
@@ -70,9 +70,8 @@ class Physiology:
 
         target_file = Path(video_path)
         file_size = target_file.stat().st_size
-        data = {"file_size": file_size}
 
-        response = requests.post(url, headers=headers, json=data)
+        response = requests.post(url, headers=headers, json={"file_size": file_size})
         vid_id = response.json()["id"]
         urls = response.json()["urls"]
         upload_id = response.json()["upload_id"]
@@ -95,9 +94,7 @@ class Physiology:
                     etag = res.headers["ETag"]
                     parts.append({"ETag": etag, "PartNumber": part})
             url = self.base_api_url + "/v1/complete"
-            headers = {"x-api-key": self.api_key}
-            data = {"id": vid_id, "upload_id": upload_id, "parts": parts}
-            response = requests.post(url, headers=headers, json=data)
+            response = requests.post(url, headers=headers, json={"id": vid_id, "upload_id": upload_id, "parts": parts})
             logging.info("Video uploaded successfully and is now processing.")
         return vid_id
     def list_uploads(self):
