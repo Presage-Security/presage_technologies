@@ -101,6 +101,52 @@ class Physiology:
             response = requests.post(url, headers=headers, json={"id": vid_id, "upload_id": upload_id, "parts": parts})
             logging.info("Video uploaded successfully and is now processing.")
         return vid_id
+    def queue_processing_all(self, video_path, preprocess=False):
+        """Using the Presage Physiology API, get all vitals
+        of a subject within a video.
+
+        Returns
+        -------
+        str
+            Id for the video uploaded that can be used to later retrieveresults with the retrieve_result function.
+        """
+        max_size = 5 * 1024 * 1024
+
+        url = self.base_api_url + "/v1/upload-url"
+        headers = {"x-api-key": self.api_key}
+
+        target_file = Path(video_path)
+        file_size = target_file.stat().st_size
+
+        response = requests.post(url, headers=headers, json={"file_size": file_size, "so2": {"to_process": True}})
+        if response.status_code == 401:
+            logging.warning("Unauthorized error! Please make sure your API key is correct.")
+            return
+        vid_id = response.json()["id"]
+        urls = response.json()["urls"]
+        upload_id = response.json()["upload_id"]
+        if preprocess:
+            pass
+        else:
+            #TODO: implement wait on server overload status
+            # Upload file to S3 using presigned URL
+            #with open(video_path, "rb") as f:
+            #    files = {"file": (vid_id, f)}
+            #    r = requests.post(link["url"], data=link["fields"], files=files)
+            parts = []
+            with target_file.open("rb") as fin:
+                for num, url in enumerate(urls):
+                    part = num + 1
+                    file_data = fin.read(max_size)
+                    res = requests.put(url, data=file_data)
+                    if res.status_code != 200:
+                        return
+                    etag = res.headers["ETag"]
+                    parts.append({"ETag": etag, "PartNumber": part})
+            url = self.base_api_url + "/v1/complete"
+            response = requests.post(url, headers=headers, json={"id": vid_id, "upload_id": upload_id, "parts": parts})
+            logging.info("Video uploaded successfully and is now processing.")
+        return vid_id
     def list_uploads(self):
         """Using the Presage Physiology API, get all available videos a user has processed.
 
