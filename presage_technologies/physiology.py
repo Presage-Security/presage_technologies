@@ -70,9 +70,14 @@ class Physiology:
             vid_id = response.json()["id"]
             urls = response.json()["urls"]
             upload_id = response.json()["upload_id"]
+            max_size = 5 * 1024 * 1024
+            preprocessed_data = bytes(preprocessed_data,"utf-8")
+
+            tracker = 0
             for num, url in enumerate(urls):
                 part = num + 1
-                file_data = preprocessed_data.read(max_size)
+                file_data = preprocessed_data[tracker:max_size]
+                tracker += max_size
                 res = requests.put(url, data=file_data)
                 if res.status_code != 200:
                     return
@@ -108,7 +113,6 @@ class Physiology:
         str
             Id for the video uploaded that can be used to later retrieveresults with the retrieve_result function.
         """
-        max_size = 5 * 1024 * 1024
 
 
         headers = {"x-api-key": self.api_key}
