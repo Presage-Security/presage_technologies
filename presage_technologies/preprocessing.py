@@ -1,4 +1,4 @@
-from mediapipefunctions import initiate_face_mesh_model, get_face_mesh_landmarks
+from presage_technologies.mediapipefunctions import initiate_face_mesh_model, get_face_mesh_landmarks
 import numpy as np
 import ffmpeg
 import json
@@ -327,17 +327,11 @@ def video_preprocess(path):
     "TOTAL_FRAMES":int(vid_length / mod_amount) + 1, "DN_SAMPLE":1, "HR_FPS":10}
 
 
-    # print('FileType: ' + str(path.split('.')[-1]))
-    # print('FPSOG: ' + str(cap.get(cv2.CAP_PROP_FPS)))
-    # print('Mod amount:', mod_amount)
-    # print('Effective FPS:', round(fps_orig / mod_amount))
-    # print('Effective FPS No Round:', fps_orig / mod_amount)
-
-
     orientation_done = False
     video_metadata = ffmpeg.probe(path)
     use_meta = None
     side_list_location = -1
+    #only needed if the vertical video bug persists on mobile
     if cv2.__version__ == "4.6.0":
         for ind in video_metadata["streams"]:
             if ind["codec_type"] == "video":
@@ -369,16 +363,16 @@ def video_preprocess(path):
                 orientation_done = True
 
             if np.mod(frame_index, mod_amount) == 0:
+                #this will likely not apply on mobile since all videos are vertical
+                #but it is a good idea to make sure they are being processed right side up
                 if cv2.__version__ == "4.6.0":
                     if frame.shape[0] > frame.shape[1]:
                         if side_list_location > -1:
                             if "\n00000000:            0       65536           0\n00000001:       -65536           0           0" in \
                                     use_meta["side_data_list"][side_list_location]["displaymatrix"]:
-                                print("Rotating with metdata verified")
                                 frame = cv2.rotate(frame, cv2.ROTATE_180)
                         else:
                             frame = cv2.rotate(frame, cv2.ROTATE_180)
-                            print("Rotating without metadata to verify:", use_meta)
 
                 frame = cv2.resize(frame,
                                    (frame.shape[1] // traces['settings']["DN_SAMPLE"], frame.shape[0] // traces['settings']["DN_SAMPLE"]),
@@ -415,7 +409,3 @@ def video_preprocess(path):
     cap.release()
     # serialize all traces data and return as json
     return json.dumps(traces, cls=NumpyArrayEncoder)
-if __name__ == '__main__':
-    vid_path = "/Users/rick/Desktop/mobile_example.mp4"
-    data = video_preprocess(vid_path)
-    print(data)
