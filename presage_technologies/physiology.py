@@ -58,6 +58,7 @@ class Physiology:
         vid_id = None
         upload_id = None
         urls=[]
+        max_size = 5 * 1024 * 1024
         url = self.base_api_url + "/v1/upload-url"
         headers = {"x-api-key": self.api_key}
         if preprocess:
@@ -70,14 +71,18 @@ class Physiology:
             vid_id = response.json()["id"]
             urls = response.json()["urls"]
             upload_id = response.json()["upload_id"]
+            n = len(urls)
+            chunks = [preprocessed_data[i:i+n] for i in range(0, len(preprocessed_data), n)]
+            c = 0
             for num, url in enumerate(urls):
                 part = num + 1
-                file_data = preprocessed_data.read(max_size)
+                file_data = chunks[c]
                 res = requests.put(url, data=file_data)
                 if res.status_code != 200:
                     return
                 etag = res.headers["ETag"]
                 parts.append({"ETag": etag, "PartNumber": part})
+                c+=1
         else:
             target_file = Path(video_path)
             file_size = target_file.stat().st_size
@@ -108,7 +113,7 @@ class Physiology:
         str
             Id for the video uploaded that can be used to later retrieveresults with the retrieve_result function.
         """
-        max_size = 5 * 1024 * 1024
+
 
 
         headers = {"x-api-key": self.api_key}
@@ -128,7 +133,6 @@ class Physiology:
         str
             Id for the video uploaded that can be used to later retrieveresults with the retrieve_result function.
         """
-        max_size = 5 * 1024 * 1024
 
         headers = {"x-api-key": self.api_key}
 
