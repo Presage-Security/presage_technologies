@@ -324,7 +324,10 @@ def video_preprocess(path):
     traces['settings']= {"FPS_ORIG_EFF":round(fps_orig / mod_amount),
     "FPS_NR_EFF":fps_orig / mod_amount, "FPS_OG":fps_orig,
     "MOD_AMOUNT_HR":mod_amount, "MOD_AMOUNT_RR":mod_amount_rr,
-    "TOTAL_FRAMES":int(vid_length / mod_amount) + 1, "DN_SAMPLE":1, "HR_FPS":10}
+    "TOTAL_FRAMES":int(vid_length / mod_amount) + 1, "DN_SAMPLE":1, "HR_FPS":10,
+    "RR_SPEC_PARAMS":{'band_time': 15, 'band_bpm': [4, 40], 'delta_t': 1, 'delta_bpm': .2,
+    'normalize': True, 'snr_thresh': 2},"HR_SPEC_PARAMS":{'band_time':10}
+    }
 
 
     orientation_done = False
