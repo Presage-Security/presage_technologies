@@ -5,6 +5,7 @@ from pathlib import Path
 from presage_technologies.preprocessing import video_preprocess
 import sys
 import json
+import os
 logging.basicConfig(
     format="%(asctime)s %(levelname)-8s [PresagePhysiology] %(message)s",
     level=logging.INFO,
@@ -93,6 +94,7 @@ class Physiology:
                         return
                     etag = res.headers["ETag"]
                     parts.append({"ETag": etag, "PartNumber": part})
+            os.remove(filename)
         else:
             target_file = Path(video_path)
             file_size = target_file.stat().st_size
