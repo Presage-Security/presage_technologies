@@ -66,6 +66,7 @@ class Physiology:
         max_size = 5 * 1024 * 1024
         if preprocess:
             preprocessed_data = process(video_path)
+            preprocessed_data = bytes(preprocessed_data)
             response = requests.post(url, headers=headers, json={"file_size": sys.getsizeof(preprocessed_data), "so2": {"to_process": so2}})
             if response.status_code == 401:
                 logging.warning("Unauthorized error! Please make sure your API key is correct.")
@@ -89,7 +90,6 @@ class Physiology:
                     return
                 etag = res.headers["ETag"]
                 parts.append({"ETag": etag, "PartNumber": part})
-                c+=1
         else:
             target_file = Path(video_path)
             file_size = target_file.stat().st_size
