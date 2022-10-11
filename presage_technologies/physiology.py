@@ -62,6 +62,7 @@ class Physiology:
         urls=[]
         url = self.base_api_url + "/v1/upload-url"
         headers = {"x-api-key": self.api_key}
+        max_size = 5 * 1024 * 1024
         if preprocess:
             preprocessed_data = video_preprocess(video_path)
             response = requests.post(url, headers=headers, json={"file_size": sys.getsizeof(preprocessed_data), "so2": {"to_process": so2}})
@@ -72,7 +73,6 @@ class Physiology:
             vid_id = response.json()["id"]
             urls = response.json()["urls"]
             upload_id = response.json()["upload_id"]
-            max_size = 5 * 1024 * 1024
 
             tracker = 0
             max_len = len(preprocessed_data)
