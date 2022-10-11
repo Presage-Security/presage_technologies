@@ -4,6 +4,8 @@ import logging
 from pathlib import Path
 from presage_physiology_preprocessing import process
 import sys
+import json
+import os
 logging.basicConfig(
     format="%(asctime)s %(levelname)-8s [PresagePhysiology] %(message)s",
     level=logging.INFO,
@@ -61,6 +63,7 @@ class Physiology:
         max_size = 5 * 1024 * 1024
         url = self.base_api_url + "/v1/upload-url"
         headers = {"x-api-key": self.api_key}
+        max_size = 5 * 1024 * 1024
         if preprocess:
             preprocessed_data = process(video_path)
             response = requests.post(url, headers=headers, json={"file_size": sys.getsizeof(preprocessed_data), "so2": {"to_process": so2}})
@@ -71,15 +74,17 @@ class Physiology:
             vid_id = response.json()["id"]
             urls = response.json()["urls"]
             upload_id = response.json()["upload_id"]
-            max_size = 5 * 1024 * 1024
-            preprocessed_data = bytes(preprocessed_data,"utf-8")
 
             tracker = 0
+            max_len = len(preprocessed_data)
             for num, url in enumerate(urls):
                 part = num + 1
-                file_data = preprocessed_data[tracker:max_size]
-                tracker += max_size
+                if (max_len - tracker) < max_size:
+                    file_data = preprocessed_data[tracker:max_len]
+                else:
+                    file_data = preprocessed_data[tracker:max_size]
                 res = requests.put(url, data=file_data)
+                tracker += max_size
                 if res.status_code != 200:
                     return
                 etag = res.headers["ETag"]
