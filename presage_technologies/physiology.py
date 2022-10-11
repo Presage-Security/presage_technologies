@@ -64,7 +64,6 @@ class Physiology:
         headers = {"x-api-key": self.api_key}
         if preprocess:
             preprocessed_data = video_preprocess(video_path)
-            #preprocessed_data = json.loads(preprocessed_data)
             response = requests.post(url, headers=headers, json={"file_size": sys.getsizeof(preprocessed_data), "so2": {"to_process": so2}})
             if response.status_code == 401:
                 logging.warning("Unauthorized error! Please make sure your API key is correct.")
@@ -75,26 +74,20 @@ class Physiology:
             upload_id = response.json()["upload_id"]
             max_size = 5 * 1024 * 1024
 
-            # TEMPORARY WHILE WE FIGURE OUT HOW TO HANDL MEMORY
-            # USING TO TEST BACKEND PROCESSING LOGIC FOR ERRORS
-            import uuid
-            filename = str(uuid.uuid4())
-            with open(filename, "w") as outfile:
-                json.dump(preprocessed_data, outfile)
-
-            target_file = Path(filename)
-            with target_file.open("rb") as fin:
-                for num, url in enumerate(urls):
-                    part = num + 1
-                    #file_data = preprocessed_data[tracker:max_size]
-                    file_data = fin.read(max_size)
-                #tracker += max_size
-                    res = requests.put(url, data=file_data)
-                    if res.status_code != 200:
-                        return
-                    etag = res.headers["ETag"]
-                    parts.append({"ETag": etag, "PartNumber": part})
-            os.remove(filename)
+            tracker = 0
+            max_len = len(preprocessed_data)
+            for num, url in enumerate(urls):
+                part = num + 1
+                if (max_len - tracker) < max_size:
+                    file_data = preprocessed_data[tracker:max_len]
+                else:
+                    file_data = preprocessed_data[tracker:max_size]
+                res = requests.put(url, data=file_data)
+                tracker += max_size
+                if res.status_code != 200:
+                    return
+                etag = res.headers["ETag"]
+                parts.append({"ETag": etag, "PartNumber": part})
         else:
             target_file = Path(video_path)
             file_size = target_file.stat().st_size
