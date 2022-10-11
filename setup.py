@@ -2,9 +2,9 @@ from setuptools import setup
 from pathlib import Path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
-requirements = ['requests', 'mediapipe==0.8.11']
+requirements = ['requests', 'presage_physiology_preprocessing']
 
-__version__ = '1.1.2'
+__version__ = '1.1.3'
 
 setup(
     name='Presage Technologies',
