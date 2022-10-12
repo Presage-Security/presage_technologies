@@ -53,7 +53,7 @@ class Physiology:
                 logging.warning("Unauthorized error! Please make sure your API key is correct.")
                 return
             else:
-                time.sleep(60)
+                time.sleep(30)
         return None
     def process_loop(self, video_path, preprocess, so2):
         parts = []
@@ -111,7 +111,7 @@ class Physiology:
                     etag = res.headers["ETag"]
                     parts.append({"ETag": etag, "PartNumber": part})
         return parts, upload_id, vid_id
-    def queue_processing_hr_rr(self, video_path, preprocess=False):
+    def queue_processing_hr_rr(self, video_path, preprocess=True):
         """Using the Presage Physiology API, get the Heart Rate and Resporation Rate
         of a subject within a video.
 
@@ -130,7 +130,7 @@ class Physiology:
         response = requests.post(url, headers=headers, json={"id": vid_id, "upload_id": upload_id, "parts": parts})
         logging.info("Video uploaded successfully and is now processing.")
         return vid_id
-    def queue_processing_all(self, video_path, preprocess=False):
+    def queue_processing_all(self, video_path, preprocess=True):
         """Using the Presage Physiology API, get all vitals
         of a subject within a video.
 
