@@ -1,6 +1,7 @@
 include:
   - template: 'Workflows/MergeRequest-Pipelines.gitlab-ci.yml'
   - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
+  - template: 'Security/Secret-Detection.gitlab-ci.yml'
 
 workflow:
   rules:
