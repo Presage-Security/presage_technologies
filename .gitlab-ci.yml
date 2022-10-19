@@ -30,7 +30,7 @@ secret_detection:
     - docker:dind
   before_script:
     - apt update
-    - apt install curl -y
+    - apt install wget curl -y
   script:
     - curl -s  https://api.github.com/repos/zricethezav/gitleaks/releases/latest | grep browser_download_url  |  cut -d '"' -f 4  | grep '\linux-amd64$'| wget -i -
     - mv gitleaks-linux-amd64 gitleak && chmod +x gitleaks
