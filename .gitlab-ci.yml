@@ -24,17 +24,16 @@ prebuild:
 secret_detection:
   stage: pre
   image:
-    name: amazon/aws-cli
+    name: ubuntu
     entrypoint: [""]
   services:
     - docker:dind
   before_script:
-    - amazon-linux-extras install docker
+    - apt install curl -y
   script:
-    - docker pull zricethezav/gitleaks:latest
-    - docker run -v ${PWD}:/path zricethezav/gitleaks:latest detect --report-format json --report-path "results.json" -b .baseline
-
-
+    - curl -s  https://api.github.com/repos/zricethezav/gitleaks/releases/latest | grep browser_download_url  |  cut -d '"' -f 4  | grep '\linux-amd64$'| wget -i -
+    - mv gitleaks-linux-amd64 gitleak && chmod +x gitleaks
+    - gitleaks detect --report-format json --report-path "results.json
 semantic_release:
   rules:
   - if: '$CI_COMMIT_BRANCH != "main"'
