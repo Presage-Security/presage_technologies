@@ -1,11 +1,9 @@
 include:
   - template: 'Workflows/MergeRequest-Pipelines.gitlab-ci.yml'
   - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
-  - template: 'Security/Secret-Detection.gitlab-ci.yml'
 
 stages:
   - pre
-  - test
   - semantic_release
 
 # Grabs tokens to write Semantic Release back to repo
@@ -22,6 +20,15 @@ prebuild:
     expire_in: 20 min
     paths:
       - .ci-secrets
+
+secret_detection:
+  stage: pre
+  image:
+    name: ubuntu
+  before_script:
+    - pip install detect-secrets
+  scripts:
+    - git ls-files -z | xargs -0 detect-secrets-hook
 
 semantic_release:
   rules:
