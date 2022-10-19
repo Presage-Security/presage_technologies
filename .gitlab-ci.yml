@@ -10,19 +10,20 @@ workflow:
   - if: $CI_COMMIT_MESSAGE =~ /.*\nAutomatically\sgenerated.*/
     when: never
   - if: '$CI_COMMIT_TAG == null'
-  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
-    when: never
+    #- if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    #- if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+    #when: never
   - if: '$CI_COMMIT_BRANCH'
 
 stages:
-  - secrets
+  - pre
+  - test
   - semantic_release
 
 # Grabs tokens to write Semantic Release back to repo
 prebuild:
   rules:
-  stage: secrets
+  stage: pre
   image: clevy/awssecrets
   script:
     - awssecrets --region us-east-1 --secret gitlab/automation/write_token >> .ci-secrets
