@@ -32,7 +32,7 @@ secret_detection:
     - amazon-linux-extras install docker
   script:
     - docker pull zricethezav/gitleaks:latest
-    - docker run -v ${$PWD}:/path zricethezav/gitleaks:latest detect --report-format json --report-path "results.json" -b .baseline
+    - docker run -v ${PWD}:/path zricethezav/gitleaks:latest detect --report-format json --report-path "results.json" -b .baseline
 
 
 semantic_release:
