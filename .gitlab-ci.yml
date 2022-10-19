@@ -24,11 +24,16 @@ prebuild:
 secret_detection:
   stage: pre
   image:
-    name: ubuntu
+    name: amazon/aws-cli
+    entrypoint: [""]
+  services:
+    - docker:dind
   before_script:
-    - pip install detect-secrets
-  scripts:
-    - git ls-files -z | xargs -0 detect-secrets-hook
+    - amazon-linux-extras install docker
+  script:
+    - docker pull zricethezav/gitleaks:latest
+    - docker run -v ${$PWD}:/path zricethezav/gitleaks:latest detect --report-format json --report-path "results.json" -b .baseline
+
 
 semantic_release:
   rules:
