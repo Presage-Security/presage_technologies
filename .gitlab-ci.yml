@@ -34,8 +34,8 @@ secret_detection:
   script:
     - curl -s  https://api.github.com/repos/zricethezav/gitleaks/releases/latest | grep browser_download_url  |  cut -d '"' -f 4  | grep '\linux_x64'| wget -i -
     - ls -la
-    - mv gitleaks-linux-amd64 gitleak && chmod +x gitleaks
-    - gitleaks detect --report-format json --report-path "results.json
+    - mv gitleaks_* gitleaks && chmod +x gitleaks
+    - ./gitleaks detect --report-format json --report-path "results.json
 
 semantic_release:
   rules:
