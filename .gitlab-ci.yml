@@ -32,9 +32,11 @@ secret_detection:
     - apt update
     - apt install wget curl -y
   script:
-    - curl -s  https://api.github.com/repos/zricethezav/gitleaks/releases/latest | grep browser_download_url  |  cut -d '"' -f 4  | grep '\linux-amd64$'| wget -i -
+    - curl -s  https://api.github.com/repos/zricethezav/gitleaks/releases/latest | grep browser_download_url  |  cut -d '"' -f 4  | grep '\linux_x64$'| wget -i -
+    - ls -la
     - mv gitleaks-linux-amd64 gitleak && chmod +x gitleaks
     - gitleaks detect --report-format json --report-path "results.json
+
 semantic_release:
   rules:
   - if: '$CI_COMMIT_BRANCH != "main"'
