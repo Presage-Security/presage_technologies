@@ -32,6 +32,8 @@ semantic_release:
   image:
     name: amazon/aws-cli
     entrypoint: [""]
+  variables:
+    GIT_STRATEGY: clone
   services:
     - docker:dind
   before_script:
