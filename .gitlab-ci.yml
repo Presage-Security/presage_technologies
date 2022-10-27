@@ -36,6 +36,9 @@ workflow:
     when: never
   - if: $CI_COMMIT_BRANCH == "main"
 
+variables:
+  AWS_DEFAULT_REGION: us-east-1
+
 stages:
   - pre
   - security
