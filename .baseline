@@ -1,0 +1,20 @@
+[
+ {
+  "Description": "Generic API Key",
+  "StartLine": 11,
+  "EndLine": 11,
+  "StartColumn": 9,
+  "EndColumn": 55,
+  "Match": "authorship_tag\": \"ABX9TyOuOABpkDqgXYyHZSXwpvGO\"",
+  "Secret": "ABX9TyOuOABpkDqgXYyHZSXwpvGO",
+  "File": "examples/Physiology_API_Example.ipynb",
+  "Commit": "d946c0de8cfb1402d87aa42c6d842ca034f28add",
+  "Entropy": 4.182006,
+  "Author": "Rick Getz",
+  "Email": "rick@presagesecurity.com",
+  "Date": "2022-07-06T18:55:30Z",
+  "Message": "[feat] Add colab button to readme.",
+  "Tags": [],
+  "RuleID": "generic-api-key"
+ }
+]
