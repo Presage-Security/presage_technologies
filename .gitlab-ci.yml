@@ -14,9 +14,9 @@ include:
     file: 'prebuild.yml'
 
     # Run Safety Upstream Dependenacy check
-    #- project: 'presage/infrastructure/ci-templates'
-    #ref: 'main'
-    #file: 'security/safety.yml'
+  - project: 'presage/infrastructure/ci-templates'
+    ref: 'main'
+    file: 'security/python_dependency_check.yml'
 
     # Checkout CI/CD Scripts
   - project: 'presage/infrastructure/ci-templates'
