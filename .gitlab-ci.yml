@@ -14,9 +14,9 @@ include:
     file: 'prebuild.yml'
 
     # Run Safety Upstream Dependenacy check
-  - project: 'presage/infrastructure/ci-templates'
-    ref: 'main'
-    file: 'security/safety.yml'
+    #- project: 'presage/infrastructure/ci-templates'
+    #ref: 'main'
+    #file: 'security/safety.yml'
 
     # Checkout CI/CD Scripts
   - project: 'presage/infrastructure/ci-templates'
@@ -30,6 +30,7 @@ include:
 
 workflow:
   rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   - if: $CI_COMMIT_TAG
     when: never
   - if: $GITLAB_USER_EMAIL == "admins@presagesecurity.com"
