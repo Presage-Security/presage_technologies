@@ -83,7 +83,6 @@ class Physiology:
             preprocessed_data = json.dumps(preprocessed_data).encode("utf-8")
             if compress:
                 preprocessed_data = gzip.compress(preprocessed_data)
-                print(type(preprocessed_data))
             response = requests.post(
                 url,
                 headers=headers,
