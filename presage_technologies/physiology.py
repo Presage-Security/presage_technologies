@@ -3,6 +3,7 @@ import logging
 import os
 import sys
 import time
+import gzip
 from pathlib import Path
 
 import requests
@@ -67,7 +68,7 @@ class Physiology:
                 time.sleep(30)
         return None
 
-    def process_loop(self, video_path, preprocess, so2):
+    def process_loop(self, video_path, preprocess, compress, so2):
         parts = []
         vid_id = None
         upload_id = None
@@ -80,6 +81,8 @@ class Physiology:
         if preprocess:
             preprocessed_data = process(video_path)
             preprocessed_data = json.dumps(preprocessed_data).encode("utf-8")
+            if compress:
+                preprocessed_data = gzip.compress(preprocessed_data)
             response = requests.post(
                 url,
                 headers=headers,
@@ -140,7 +143,7 @@ class Physiology:
                     parts.append({"ETag": etag, "PartNumber": part})
         return parts, upload_id, vid_id
 
-    def queue_processing_hr_rr(self, video_path, preprocess=True):
+    def queue_processing_hr_rr(self, video_path, preprocess=True, compress=True):
         """Using the Presage Physiology API, get the Heart Rate and Resporation Rate
         of a subject within a video.
 
@@ -152,7 +155,7 @@ class Physiology:
 
         headers = {"x-api-key": self.api_key}
 
-        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, so2=False)
+        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, compress, so2=False)
 
         url = self.base_api_url + "/v1/complete"
         requests.post(
@@ -163,7 +166,7 @@ class Physiology:
         logging.info("Video uploaded successfully and is now processing.")
         return vid_id
 
-    def queue_processing_all(self, video_path, preprocess=True):
+    def queue_processing_all(self, video_path, preprocess=True, compress=True):
         """Using the Presage Physiology API, get all vitals
         of a subject within a video.
 
@@ -175,7 +178,7 @@ class Physiology:
 
         headers = {"x-api-key": self.api_key}
 
-        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, so2=True)
+        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, compress, so2=True)
 
         url = self.base_api_url + "/v1/complete"
         requests.post(
