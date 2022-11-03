@@ -60,6 +60,12 @@ video_id = physio.queue_processing_hr_rr("/path/to/video/file", preprocess=True)
 Run Preprocessing steps locally to decrease processing and network transfer times. When you are ready to start checking for the result you can use `.retrieve_result()` with your video_id to return the results.
 
 ```python
+video_id = physio.queue_processing_hr_rr("/path/to/video/file", preprocess=True, compress=True)
+```
+
+Run Preprocessing steps locally and compress the results before sending to decrease processing and network transfer times. When you are ready to start checking for the result you can use `.retrieve_result()` with your video_id to return the results.
+
+```python
 data = physio.retrieve_result(video_id)
 ```
 
