@@ -68,7 +68,7 @@ class Physiology:
                 time.sleep(30)
         return None
 
-    def process_loop(self, video_path, preprocess, compress, so2):
+    def process_loop(self, video_path, preprocess, compress, type):
         parts = []
         vid_id = None
         upload_id = None
@@ -88,7 +88,7 @@ class Physiology:
                 headers=headers,
                 json={
                     "file_size": sys.getsizeof(preprocessed_data),
-                    "so2": {"to_process": so2},
+                    type: {"to_process": True},
                 },
             )
             if response.status_code == 401:
@@ -96,7 +96,7 @@ class Physiology:
                     "Unauthorized error! Please make sure your API key is correct."
                 )
                 return
-
+            print(response.json())
             vid_id = response.json()["id"]
             urls = response.json()["urls"]
             upload_id = response.json()["upload_id"]
@@ -122,7 +122,7 @@ class Physiology:
             response = requests.post(
                 url,
                 headers=headers,
-                json={"file_size": file_size, "so2": {"to_process": so2}},
+                json={"file_size": file_size, type: {"to_process": True}},
             )
             if response.status_code == 401:
                 logging.warning(
@@ -155,7 +155,7 @@ class Physiology:
 
         headers = {"x-api-key": self.api_key}
 
-        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, compress, so2=False)
+        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, compress, type="hr_br")
 
         url = self.base_api_url + "/v1/complete"
         requests.post(
@@ -178,7 +178,7 @@ class Physiology:
 
         headers = {"x-api-key": self.api_key}
 
-        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, compress, so2=True)
+        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, compress, type="all")
 
         url = self.base_api_url + "/v1/complete"
         requests.post(
