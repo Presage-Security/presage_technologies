@@ -68,7 +68,7 @@ class Physiology:
                 time.sleep(30)
         return None
 
-    def process_loop(self, video_path, preprocess, compress, type):
+    def process_loop(self, video_path, preprocess, compress, type, trace=None):
         parts = []
         vid_id = None
         upload_id = None
@@ -78,8 +78,11 @@ class Physiology:
         headers = {"x-api-key": self.api_key}
         max_size = 5 * 1024 * 1024
 
-        if preprocess:
-            preprocessed_data = process(video_path)
+        if preprocess or trace is not None:
+            if trace is None:
+                preprocessed_data = process(video_path)
+            else:
+                preprocessed_data=trace
             preprocessed_data = json.dumps(preprocessed_data).encode("utf-8")
             if compress:
                 preprocessed_data = gzip.compress(preprocessed_data)
@@ -143,7 +146,7 @@ class Physiology:
                     parts.append({"ETag": etag, "PartNumber": part})
         return parts, upload_id, vid_id
 
-    def queue_processing_hr_rr(self, video_path, preprocess=True, compress=True):
+    def queue_processing_hr_rr(self, video_path=None, trace=None, preprocess=True, compress=True):
         """Using the Presage Physiology API, get the Heart Rate and Resporation Rate
         of a subject within a video.
 
@@ -154,8 +157,9 @@ class Physiology:
         """
 
         headers = {"x-api-key": self.api_key}
-
-        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, compress, type="hr_br")
+        if video_path is None and trace is None:
+            raise Exception("You must pass either a video path or trace json")
+        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, compress, type="hr_br", trace=trace)
 
         url = self.base_api_url + "/v1/complete"
         requests.post(
@@ -166,7 +170,7 @@ class Physiology:
         logging.info("Video uploaded successfully and is now processing.")
         return vid_id
 
-    def queue_processing_all(self, video_path, preprocess=True, compress=True):
+    def queue_processing_all(self, video_path=None, trace=None, preprocess=True, compress=True):
         """Using the Presage Physiology API, get all vitals
         of a subject within a video.
 
@@ -177,8 +181,9 @@ class Physiology:
         """
 
         headers = {"x-api-key": self.api_key}
-
-        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, compress, type="all")
+        if video_path is None and trace is None:
+            raise Exception("You must pass either a video path or trace json")
+        parts, upload_id, vid_id = self.process_loop(video_path, preprocess, compress, type="all", trace=trace)
 
         url = self.base_api_url + "/v1/complete"
         requests.post(
