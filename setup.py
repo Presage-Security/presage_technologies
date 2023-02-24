@@ -4,7 +4,7 @@ this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 requirements = ['requests', 'presage_physiology_preprocessing==1.2.1']
 
-__version__ = '1.3.2'
+__version__ = '1.4.0'
 
 setup(
     name='Presage Technologies',

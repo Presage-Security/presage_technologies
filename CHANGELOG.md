@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.4.0 (2023-02-24)
+### Feature
+* Added the ability to use a precreated json trace instead of requiring the video to preprocess. ([`d2056e7`](https://source.presagesecurity.com/presage/developers/presage_technologies/-/commit/d2056e7d8d0d951083b8a8aba0acfe62df246903))
+
 ## v1.3.2 (2023-02-07)
 ### Fix
 * Update so2 to all flag for retrieving all available vital types ([`08b87c7`](https://source.presagesecurity.com/presage/developers/presage_technologies/-/commit/08b87c7a2d7528edb83aea189cc1923f5f09daa1))
