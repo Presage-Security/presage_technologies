@@ -58,14 +58,14 @@ class Physiology:
             if response.status_code == 200:
                 return response.json()
             elif response.status_code == 201:
-                time.sleep(5)
+                time.sleep(1)
             elif response.status_code == 401:
                 logging.warning(
                     "Unauthorized error! Please make sure your API key is correct."
                 )
                 return
             else:
-                time.sleep(30)
+                time.sleep(1)
         return None
 
     def process_loop(self, video_path, preprocess, compress, type, trace=None):
