@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.4.2 (2023-05-04)
+### Fix
+* Cleanup unnecessary logs ([`c0d18bc`](https://source.presagesecurity.com/presage/developers/presage_technologies/-/commit/c0d18bc123c0aa5c166885162a901ac06956a2e0))
+
 ## v1.4.1 (2023-05-04)
 ### Fix
 * Faster polling ([`0270207`](https://source.presagesecurity.com/presage/developers/presage_technologies/-/commit/027020793bb13c101efd9844110172a23b34c591))
