@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.4.1 (2023-05-04)
+### Fix
+* Faster polling ([`0270207`](https://source.presagesecurity.com/presage/developers/presage_technologies/-/commit/027020793bb13c101efd9844110172a23b34c591))
+
 ## v1.4.0 (2023-02-24)
 ### Feature
 * Added the ability to use a precreated json trace instead of requiring the video to preprocess. ([`d2056e7`](https://source.presagesecurity.com/presage/developers/presage_technologies/-/commit/d2056e7d8d0d951083b8a8aba0acfe62df246903))
