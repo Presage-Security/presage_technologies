@@ -99,7 +99,6 @@ class Physiology:
                     "Unauthorized error! Please make sure your API key is correct."
                 )
                 return
-            print(response.json())
             vid_id = response.json()["id"]
             urls = response.json()["urls"]
             upload_id = response.json()["upload_id"]
