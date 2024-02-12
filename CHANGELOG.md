@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.4.3 (2024-02-12)
+
+### Fix
+
+* License update to LGPLv3 ([`ccac7de`](https://source.presagesecurity.com/presage/developers/presage_technologies/-/commit/ccac7de69de7aa08e3a24859c48b3747d8173df2))
+
 ## v1.4.2 (2023-05-04)
 ### Fix
 * Cleanup unnecessary logs ([`c0d18bc`](https://source.presagesecurity.com/presage/developers/presage_technologies/-/commit/c0d18bc123c0aa5c166885162a901ac06956a2e0))
