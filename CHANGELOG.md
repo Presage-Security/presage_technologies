@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.5.0 (2024-02-14)
+
+### Feature
+
+* Add ability to retrieve results from API in reshaped format ([`86ba63d`](https://source.presagesecurity.com/presage/developers/presage_technologies/-/commit/86ba63d7a7839168da7a5a932b3088592a9e5b6e))
+
 ## v1.4.3 (2024-02-12)
 
 ### Fix
