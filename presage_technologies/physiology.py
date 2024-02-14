@@ -26,13 +26,15 @@ class Physiology:
         self.api_key = api_key
         self.base_api_url = base_api_url
 
-    def retrieve_result(self, id, timeout=1800):
+    def retrieve_result(self, id, reshape=False, timeout=1800):
         """Short summary.
 
         Parameters
         ----------
         id : str
             Id of the uploaded video that was retireved during the video or json payload upload step.
+        reshape : boolean
+            Reshape vitals data for plotting
         timeout : int
             Default: 1800. How long to try, in seconds, until to give up.
 
@@ -53,7 +55,7 @@ class Physiology:
             response = requests.post(
                 self.base_api_url + "/retrieve-data",
                 headers={"x-api-key": self.api_key},
-                json={"id": id},
+                json={"id": id, "reshape": reshape},
             )
             if response.status_code == 200:
                 return response.json()
