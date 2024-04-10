@@ -70,6 +70,77 @@ class Physiology:
                 time.sleep(1)
         return None
 
+    def process_loopv2(self, preprocess, metrics, compress, trace=None):
+        parts = []
+        vid_id = None
+        upload_id = None
+        urls = []
+        max_size = 5 * 1024 * 1024
+        url = self.base_api_url + "/v2/upload-url"
+        headers = {"x-api-key": self.api_key}
+        max_size = 5 * 1024 * 1024
+
+        preprocessed_data=trace
+        preprocessed_data = json.dumps(preprocessed_data).encode("utf-8")
+        if compress:
+            preprocessed_data = gzip.compress(preprocessed_data)
+        response = requests.post(
+            url,
+            headers=headers,
+            json={
+                "file_size": sys.getsizeof(preprocessed_data),
+                "metrics": metrics,
+            },
+        )
+        if response.status_code == 401:
+            logging.warning(
+                "Unauthorized error! Please make sure your API key is correct."
+            )
+            return
+        vid_id = response.json()["id"]
+        urls = response.json()["urls"]
+        upload_id = response.json()["upload_id"]
+
+        tracker = 0
+        max_len = len(preprocessed_data)
+        for num, url in enumerate(urls):
+            part = num + 1
+            if (max_len - tracker) < max_size:
+                file_data = preprocessed_data[tracker:max_len]
+            else:
+                file_data = preprocessed_data[tracker:max_size]
+            res = requests.put(url, data=file_data)
+            tracker += max_size
+            if res.status_code != 200:
+                return
+            etag = res.headers["ETag"]
+            parts.append({"ETag": etag, "PartNumber": part})
+        return parts, upload_id, vid_id
+
+    def queue_processing(self, trace=None, metrics=[], preprocess=True, compress=True):
+        """Using the Presage Physiology API, get all metrics
+        of a subject within a video.
+
+        Returns
+        -------
+        str
+            Id for the video uploaded that can be used to later retrieveresults with the retrieve_result function.
+        """
+
+        headers = {"x-api-key": self.api_key}
+        if trace is None:
+            raise Exception("You must pass a trace json")
+        parts, upload_id, vid_id = self.process_loopv2(preprocess, metrics, compress, trace=trace)
+
+        url = self.base_api_url + "/v2/complete"
+        requests.post(
+            url,
+            headers=headers,
+            json={"id": vid_id, "upload_id": upload_id, "parts": parts},
+        )
+        logging.info("Trace uploaded successfully and is now processing.")
+        return vid_id
+
     def process_loop(self, video_path, preprocess, compress, type, trace=None):
         parts = []
         vid_id = None

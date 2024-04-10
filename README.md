@@ -45,6 +45,16 @@ from presage_technologies import Physiology
 physio = Physiology("api_key_here")
 ```
 
+Use `.queue_processing()` to upload a trace for processing and return an id for the upload to allow for async processing. .
+
+```python
+id = physio.queue_processing(trace="<dictionary of trace data>", metrics=['hr', 'rr', 'hr_trace', 'rr_trace', 'hr_spec', 'rr_spec', 'hrv', 'phasic', 'rrl', 'apnea', 'ie', 'amplitude', 'baseline'])
+```
+
+metrics is an optional argument that expects a list, each of the above list items is optional. If the list is not supplied all metrics will be calculated.
+
+Use `.retrieve_result()` with your id to return the results.
+
 Use `.queue_processing_hr_rr()` to upload your video for processing and return an id for the upload to allow for async processing. You are able to upload multiple videos as you would like as long as it is within your plan limits.
 
 ```python

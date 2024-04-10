@@ -2,7 +2,7 @@ from setuptools import setup
 from pathlib import Path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
-requirements = ['requests', 'presage_physiology_preprocessing==1.2.1']
+requirements = ['requests', 'presage_physiology_preprocessing==1.2.6', 'mediapipe==0.9.1.0', 'numpy==1.26.3']
 
 __version__ = '1.5.0'
 
