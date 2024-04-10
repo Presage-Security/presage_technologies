@@ -70,7 +70,7 @@ class Physiology:
                 time.sleep(1)
         return None
 
-    def process_loopv2(self, preprocess, metrics, compress, trace=None):
+    def process_loopv2(self, trace, metrics, compress):
         parts = []
         vid_id = None
         upload_id = None
@@ -130,7 +130,7 @@ class Physiology:
         headers = {"x-api-key": self.api_key}
         if trace is None:
             raise Exception("You must pass a trace json")
-        parts, upload_id, vid_id = self.process_loopv2(preprocess, metrics, compress, trace=trace)
+        parts, upload_id, vid_id = self.process_loopv2(trace, metrics, compress)
 
         url = self.base_api_url + "/v2/complete"
         requests.post(
