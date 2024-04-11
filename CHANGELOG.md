@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.6.0 (2024-04-11)
+
+### Feature
+
+* Implementing functionality to work with v2 of the Physiology Processing endpoints ([`743dd19`](https://source.presagesecurity.com/presage/developers/presage_technologies/-/commit/743dd19e22803edb7fe2815741f79efb8b5cf99d))
+
 ## v1.5.0 (2024-02-14)
 
 ### Feature
